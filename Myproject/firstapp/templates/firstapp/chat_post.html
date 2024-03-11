@@ -1,0 +1,92 @@
+<!-- chat_post.html -->
+
+{% extends 'firstapp/base.html' %}
+
+{% block content %}
+<h2>{{ room_name }}</h2>
+
+<!-- チャット投稿フォーム -->
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">送信</button>
+</form>
+
+<!-- チャットルーム参加画面への戻るボタンを追加 -->
+<a href="{% url 'firstapp:chatrooms' %}" class="btn btn-secondary mt-3">前に戻る</a>
+
+<!-- 投稿されたチャットの表示 -->
+{% for chat in chats %}
+    <div class="chat-post">
+        <strong class="nickname">{{ chat.user.nickname }}</strong>: {{ chat.post }}
+        <!-- 日時表示といいねボタンの配置を変更 -->
+        <div class="chat-meta">
+            <!-- いいねボタンといいね数の表示 -->
+            <div class="like-container">
+    <!-- Font Awesomeのハートアイコンを使用 -->
+            <button class="like-btn" data-chat-id="{{ chat.id }}" title="Like">
+                <i class="far fa-heart"></i>
+            </button>
+            <span id="likes-count-{{ chat.id }}">{{ chat.likes.count }}</span>
+            </div>
+            <!-- 日時の表示 -->
+            <small class="text-muted">{{ chat.created_at|date:"Y-m-d H:i" }}</small>
+        </div>
+        {% if chat.user == request.user %}
+            <!-- 編集リンクを追加 -->
+            <a href="{% url 'firstapp:edit_chat_post' chat.id %}" class="edit-link">編集</a>
+             <!-- 削除リンクを追加 -->
+            <a href="{% url 'firstapp:delete_chat_post' chat.id %}" class="delete-link" onclick="return confirm('本当に削除しますか？');">削除</a>
+        {% endif %}
+    </div>
+{% endfor %}
+
+<script>
+// ページが完全に読み込まれた後に実行
+document.addEventListener('DOMContentLoaded', function() {
+const postInput = document.querySelector('input[name="post"]');  // postフィールドを取得
+    const counterDisplay = document.createElement('div');  // 文字数を表示するためのdivを作成
+    postInput.parentNode.insertBefore(counterDisplay, postInput.nextSibling);  // postInputの直後に挿入
+    
+    // 入力イベントのたびに文字数を更新
+    postInput.addEventListener('input', function() {
+        const charCount = this.value.length;
+        counterDisplay.textContent = `${charCount}/120`;  // 現在の文字数/最大文字数 を表示
+    });    
+
+// いいねボタンにイベントリスナーを設定（修正後）
+    document.querySelectorAll('.like-btn').forEach(button => {
+        button.addEventListener('click', function(e) {
+            e.preventDefault();
+            const chatId = this.getAttribute('data-chat-id');
+            const csrfToken = document.querySelector('[name="csrfmiddlewaretoken"]').value;  // 修正: csrfTokenの取得方法
+
+            fetch(`/like_chat/${chatId}/`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': csrfToken
+                },
+                body: JSON.stringify({'chat_id': chatId})
+            })
+            .then(response => response.json())
+            .then(data => {
+                const likeCountElement = document.getElementById(`likes-count-${chatId}`);
+                likeCountElement.textContent = data.likes_count;
+
+                const heartIcon = this.querySelector('i'); // 子要素の <i> タグを取得
+                if (data.liked) {
+                    this.classList.add('is-liked');  // 修正: <button>に 'is-liked' を追加
+                    heartIcon.classList.replace('far', 'fas');
+                } else {
+                    this.classList.remove('is-liked'); // 修正: <button>から 'is-liked' を削除
+                    heartIcon.classList.replace('fas', 'far');
+                }
+            })
+            .catch(error => console.error('Error:', error));
+        });
+    });
+});
+</script>
+
+{% endblock %}

@@ -1,0 +1,42 @@
+{% extends 'firstapp/base.html' %}
+
+{% block content %}
+
+<form method="post" class="needs-validation" novalidate>
+    {% csrf_token %}
+    <div class="form-group">
+        <label for="email">メールアドレス</label>
+        <input type="email" name="email" class="form-control" id="email" required placeholder="メールアドレス">
+        {% if form.email.errors %}
+        <div class="alert alert-danger">{{ form.email.errors.as_text }}</div>
+        {% endif %}
+    </div>
+    <div class="form-group">
+        <label for="username">ユーザーネーム</label>
+        <input type="text" name="username" class="form-control" id="username" required placeholder="ユーザーネーム">
+    </div>
+    <div class="form-group">
+        <label for="nickname">ニックネーム</label>
+        <input type="text" name="nickname" class="form-control" id="nickname" required placeholder="ニックネーム">
+        {% if form.nickname.errors %}
+        <div class="alert alert-danger">{{ form.email.errors.as_text }}</div>
+        {% endif %}
+    </div>
+    <div class="form-group">
+        <label for="password1">パスワード</label>
+        <input type="password" name="password1" class="form-control" id="password1" require placeholder="パスワード">
+        {% if form.password1.errors %}
+        <div class="alert alert-danger">{{ form.email.errors.as_text }}</div>
+        {% endif %}
+    </div>
+    <div class="form-group">
+        <label for="password2">パスワード (確認)</label>
+        <input type="password" name="password2" class="form-control" id="password2" required placeholder="パスワード（確認用）">
+        {% if form.password2.errors %}
+        <div class="alert alert-danger">{{ form.email.errors.as_text }}</div>
+        {% endif %}
+    </div>
+    <button type="submit" class="btn btn-primary">登録</button>
+</form>
+
+{% endblock %}

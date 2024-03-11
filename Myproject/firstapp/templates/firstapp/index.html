@@ -1,0 +1,13 @@
+{% extends 'firstapp/base.html' %}
+
+{% block content %}
+<div class="text-center mt-5">
+    <h1>ようこそ！繊細さんのコミュニティアプリへ</h1>
+    {% if user.is_authenticated %}
+        <p>Hello, {{ user.username }}!</p>
+    {% else %}
+        <p><a href="{% url 'firstapp:register' %}" class="btn btn-primary">新規ユーザー登録</a></p>
+        <p><a href="{% url 'firstapp:login' %}" class="btn btn-secondary">ログイン</a></p>
+    {% endif %}
+</div>
+{% endblock %}

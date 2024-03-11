@@ -1,0 +1,19 @@
+{% extends 'firstapp/base.html' %}
+
+{% block content %}
+<h2>投稿削除確認画面</h2>
+
+<!-- 投稿の詳細表示 -->
+<div class="post-details">
+    <p><strong>投稿者:</strong> {{ chat.user.nickname }}</p>
+    <p><strong>投稿内容:</strong> {{ chat.post }}</p>
+    <p><strong>投稿日時:</strong> {{ chat.created_at|date:"Y-m-d H:i" }}</p>
+</div>
+
+<p>本当にこの投稿を削除しますか？</p>
+<form method="post">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-danger">削除</button>
+    <a href="{% url 'firstapp:chat_post' chat.chat_room %}" class="btn btn-secondary">キャンセル</a>
+</form>
+{% endblock %}

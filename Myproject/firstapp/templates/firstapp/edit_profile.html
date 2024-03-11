@@ -1,0 +1,31 @@
+{% extends 'firstapp/base.html' %}
+
+{% block title %}プロフィール編集{% endblock %}
+
+{% block content %}
+<h2>プロフィール編集</h2>
+
+<!-- ユーザー情報の編集フォーム -->
+<form method="post">
+    {% csrf_token %}
+    {% for field in form %}
+        <p>
+            {{ field.label_tag }}<br>
+            {{ field }}
+            {% if field.help_text %}
+                <small style="color: grey">{{ field.help_text }}</small>
+            {% endif %}
+            {% for error in field.errors %}
+                <strong style="color: red">{{ error }}</strong>
+            {% endfor %}
+        </p>
+    {% endfor %}
+    <button type="submit">更新</button>
+</form>
+
+<!-- アカウント削除機能へのリンク -->
+<a href="{% url 'firstapp:delete_user' %}" onclick="return confirm('アカウントを削除してもよろしいですか？');">アカウント削除</a>
+
+<!-- 前に戻るボタン -->
+<a href="{% url 'firstapp:profile' %}">プロフィールに戻る</a>
+{% endblock %}

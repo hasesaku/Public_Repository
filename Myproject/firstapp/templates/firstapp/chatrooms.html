@@ -1,0 +1,43 @@
+<!-- chatrooms.html -->
+{% extends 'firstapp/base.html' %}
+
+{% block content %}
+<h2>チャットに参加しよう！</h2>
+
+<!-- チャットルーム参加フォーム -->
+<form method="post">
+    {% csrf_token %}
+    {{ join_form.as_p }}
+    <button type="submit">チャットに参加</button>
+</form>
+
+<a href="{% url 'firstapp:new_chatroom' %}" class="btn btn-success">新しいチャットルームを作成</a>
+
+<!-- チャットルーム一覧表示 -->
+<h4>👇チャットルーム一覧👇</h4>
+<ul class="list-group">
+    {% for chat_room in chat_rooms %}
+    <li class="list-group-item">{{ chat_room }}</li>
+    {% endfor %}
+{% endblock %}
+
+
+
+{% comment %} {% extends 'firstapp/base.html' %}
+
+{% block content %}
+<h2>チャットルーム検索</h2>
+<!-- 検索フォーム -->
+<form method="post">
+    {% csrf_token %}
+    {{ search_form.as_p }}
+    <button type="submit">検索</button>
+</form>
+
+<h2>チャットルーム一覧</h2>
+<ul>
+    {% for chat_room in chat_rooms %}
+    <li><a href="{% url 'firstapp:chat_post' chat_room %}">{{ chat_room }}</a></li>
+    {% endfor %}
+</ul>
+{% endblock %} {% endcomment %}

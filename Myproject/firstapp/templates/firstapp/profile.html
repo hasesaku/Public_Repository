@@ -1,0 +1,15 @@
+{% extends 'firstapp/base.html' %}
+
+{% block title %}Profile{% endblock %}
+
+{% block content %}
+<h2>プロフィール</h2>
+
+<p>メールアドレス: {{ user.email }}</p>
+<p>ユーザーネーム: {{ user.username }}</p>
+<p>ニックネーム: {{ user.nickname }}</p>
+<p>現在のパスワード: ********</p>
+
+<!-- プロフィール編集画面へのリンク -->
+<a href="{% url 'firstapp:edit_profile' %}">プロフィール編集</a>
+{% endblock %}

@@ -1,0 +1,12 @@
+<!-- new_chatroom.html -->
+{% extends 'firstapp/base.html' %}
+
+{% block content %}
+<h2>新しいチャットルームを作成</h2>
+
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-primary">作成</button>
+</form>
+{% endblock %}

@@ -1,0 +1,179 @@
+/* ホームページの見出しスタイル */
+.home-page h1 {
+    margin-bottom: 20px;
+}
+/* リストグループアイテムのスタイル */
+.list-group-item {
+    border-radius: 0;
+    border-left: 3px solid #007bff;
+}
+/* リストグループアイテムのホバースタイル */
+.list-group-item-action:hover {
+    background-color: #f8f9fa;
+    border-left: 3px solid #0056b3;
+}
+/* ボタンの基本スタイル */
+.btn-primary, .btn-secondary {
+    width: auto; /* 幅を自動調整に変更します。固定幅を指定していた部分を削除またはコメントアウトします。 */
+    font-size: 16px; /* フォントサイズを指定 */
+    padding: 10px 20px; /* 内側の余白を調整 */
+}
+
+/* ナビゲーションバーのブランドスタイル */
+.navbar-brand {
+    font-weight: bold;
+}
+/* ナビゲーションリンクのスタイル */
+.nav-link {
+    font-size: 16px;
+}
+/* 全体のフォントと背景色を改善 */
+body {
+    font-family: 'Arial', sans-serif; /* より読みやすいフォントに変更 */
+    background-color: #f5f5f5; /* 背景色はそのまま */
+    color: #333; /* テキスト色を少し暗めに設定 */
+}
+/* フォームの全体スタイルを洗練させる */
+form {
+    /*max-width: 400px;*/ /* フォームの最大幅を設定 */
+    margin: auto; /* 中央揃え */
+    padding: 20px; /* 内側の余白 */
+    background: #ffffff; /* 背景色 */
+    border-radius: 8px; /* 角を丸く */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* ソフトな影を追加 */
+}
+/* フォームグループのスタイル */
+.form-group {
+    margin-bottom: 15px; /* 各フォーム要素の下に余白を追加 */
+}
+/* ボタンのスタイルを統一 */
+button, .btn-primary, .btn-secondary {
+    background-color: #007bff; /* 背景色 */
+    color: white; /* テキスト色 */
+    border: none; /* 枠線を消す */
+    padding: 10px 20px; /* 内側の余白 */
+    margin-top: 10px; /* 上の余白 */
+    border-radius: 5px; /* 角を丸く */
+    cursor: pointer; /* カーソルをポインターに */
+    width: 15%; /* 幅の設定 */
+    box-sizing: border-box; /* パディングとボーダーを幅に含める */
+}
+
+/* ボタンのホバースタイル */
+button:hover, .btn-primary:hover, .btn-secondary:hover {
+    background-color: #0069d9; /* ホバー時の色 */
+    opacity: 0.8; /* ホバー時の透明度 */
+}
+
+/* チャットの投稿スタイル */
+div.chat-post {
+    border: 1px solid #eaeaea; /* 枠線 */
+    margin-bottom: 10px; /* 下の余白 */
+    padding: 10px; /* 内側の余白 */
+    border-radius: 10px; /* 角を丸く */
+    background-color: white; /* 背景色 */
+}
+/* ニックネームと日時のスタイル */
+strong.nickname {
+    font-size: 1.2em; /* ニックネームのフォントサイズを大きく */
+    color: #007bff; /* ニックネームの色 */
+}
+
+small.text-muted {
+    float: right; /* 日時を右に寄せる */
+    padding-top: 5px; /* 日時の上の余白 */
+}
+
+/* メッセージ入力欄とチャットルーム選択欄のスタイル */
+input[name="post"], input[name="chat_room"] {
+    width: 100%; /* 幅を100%に設定 */
+    box-sizing: border-box; /* パディングとボーダーを幅に含める */
+    padding: 10px; /* 内側の余白 */
+    margin-bottom: 10px; /* 下の余白 */
+}
+
+/* いいねボタンのスタイリング */
+button.like-btn {
+    font-size: 1.2em; /* ボタンのフォントサイズを大きく */
+    border: none; /* 枠線を消す */
+    background-color: transparent; /* 背景を透明に */
+    cursor: pointer; /* カーソルをポインターに */
+    /* 以下を追加または修正 */
+    margin: 0; /* 余白をリセット */
+    padding: 0; /* 内側の余白をリセット */
+    display: inline; /* インライン要素として表示 */
+    outline: none; /* 枠線を消すため追加 */
+    position: relative; /* 相対位置 */
+    z-index: 2; /* 重なり順序を2に */
+    transition: color 0.3s; /* 色の変化にアニメーションをつける */
+
+}
+
+/* いいねボタンのホバースタイルとアクティブスタイル */
+button.like-btn:hover, button.like-btn.is-liked {
+    color: #ff69b4; /* ホバー時やいいね済みの色をピンクに */
+}
+
+/* いいね数の位置を調整 */
+span#likes-count- {
+    position: absolute; /* 絶対位置 */
+    left: 20px; /* 左からの距離 */
+    top: 0; /* 上からの距離 */
+    background-color: white; /* 背景色を白に */
+    padding: 0 5px; /* 内側の余白 */
+    border-radius: 10px; /* 角を丸く */
+    z-index: 1; /* 重なり順序を1に */
+}
+
+/* いいねボタンのコンテナスタイル */
+div.like-container {
+    display: flex; /* フレックスコンテナとして表示 */
+    align-items: center; /* 中央揃え */
+    justify-content: flex-end; /* 右寄せ */
+}
+
+/* チャットメタデータのスタイリングを修正 */
+div.chat-meta {
+    display: flex;
+    flex-direction: column-reverse; /* アイテムを逆順に表示 */
+    align-items: flex-end; /* 右揃え */
+    justify-content: space-between; /* アイテム間の余白を最大化 */
+}
+
+/* 投稿されたチャット表示部分のスタイル調整 */
+div.chat-post {
+    position: relative; /* 相対位置 */
+    padding-right: 40px; /* 右側のパディングを追加していいねボタンのスペースを作る */
+}
+
+/* Font Awesomeのハートアイコン用のスタイル調整 */
+.like-btn i {
+    color: #aaa; /* 初期色は灰色や透明に近い色 */
+    transition: color 0.3s; /* 色の変化にアニメーションをつける */
+}
+
+/* いいねされた時のハートアイコンの色 */
+.like-btn.is-liked i {
+    color: #ff69b4; /* ピンク色に変更 */
+}
+
+/* 省略 */
+
+/* いいねボタンのコンテナスタイル */
+div.like-container {
+    display: flex; /* フレックスコンテナとして表示 */
+    align-items: center; /* 中央揃え */
+    justify-content: flex-end; /* 右寄せ */
+    flex-direction: row-reverse; /* アイテムを逆順（右から左へ）に並べる */
+}
+
+/* いいね数の位置を調整 */
+/* span#likes-count- のスタイルはもはや必要ないので削除 */
+/* 代わりに新しいスタイルを追加 */
+/*span[id^="likes-count-"] {
+    /* position: absolute; このプロパティは不要になるので削除 */
+    /* left: 20px; このプロパティは不要になるので削除 */
+    /* top: 0; このプロパティは不要になるので削除 */
+    /*margin-left: 10px; /* ハートアイコンの右側にマージンを追加 */
+    /* その他のスタイルは必要に応じて調整 */
+/*}
