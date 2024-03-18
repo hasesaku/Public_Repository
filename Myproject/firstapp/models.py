@@ -59,27 +59,25 @@ class ChatRoom(models.Model):
 
 # Chatモデルの追加
 class Chat(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='chats')
-    chat_room = models.ForeignKey(ChatRoom, on_delete=models.CASCADE, related_name='chats')  # chat_roomはChatRoomモデルを参照するように変更    
-    chat_search = models.TextField()  # チャット検索用フィールド
-    post = models.TextField()  # 投稿メッセージを保存するためのフィールドを追加
-    edit = models.BooleanField(default=False)  # 投稿が編集されたかどうかを示すフィールドを追加
+    user_id = models.IntegerField()
+    chat_room_id = models.IntegerField()  # chat_roomはChatRoomモデルを参照するように変更    
+    submission = models.TextField()  # 投稿メッセージを保存するためのフィールドを追加
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return f"Chat {self.id} in {self.chat_room.name}"    
+        return f"Chat  in {self.chat_room_id}"    
 
 # Likeモデルの追加
 class Like(models.Model):
     # Userモデルへの参照
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='likes')
+    user_id = models.IntegerField()
     # Chatモデルへの参照
-    chat = models.ForeignKey(Chat, on_delete=models.CASCADE, related_name='likes')
+    chat_id = models.IntegerField()
     # 登録日時
     created_at = models.DateTimeField(auto_now_add=True)
     # 最終更新日時
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return f"Like by {self.user.email} on Chat {self.chat.id}"
+        return f"Like by on Chat "

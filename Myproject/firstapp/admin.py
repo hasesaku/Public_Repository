@@ -8,14 +8,14 @@ class UserAdmin(admin.ModelAdmin):
 
 # Chatモデルの管理用クラス
 class ChatAdmin(admin.ModelAdmin):
-    list_display = ('chat_room', 'user', 'post', 'edit', 'created_at', 'updated_at')
-    list_filter = ('edit', 'created_at')  # フィルタリングに使用するフィールド
-    search_fields = ('chat_room', 'post')
+    list_display = ('chat_room_id', 'user_id', 'submission','created_at', 'updated_at')
+    list_filter = ( 'created_at',)  # フィルタリングに使用するフィールド
+    search_fields = ('chat_room_id', 'submission')
 
 # Likeモデルの管理用クラス
 class LikeAdmin(admin.ModelAdmin):
-    list_display = ('user', 'chat', 'created_at', 'updated_at')
-    search_fields = ('user__email', 'chat__chat_room')  # ForeignKeyのフィールドを検索する場合の記法
+    list_display = ('user_id', 'chat_id', 'created_at', 'updated_at')
+    search_fields = ('user__email', 'chat__chat_room_id')  # ForeignKeyのフィールドを検索する場合の記法
 
 # モデルを管理サイトに登録
 admin.site.register(User, UserAdmin)

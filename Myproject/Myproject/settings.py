@@ -128,3 +128,7 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 AUTH_USER_MODEL = "firstapp.User"
 
 LOGIN_URL = "/login/"  # DjangoにログインページのURLとしてこれを使用するように指示
+
+# HTTPS 環境下でのみクッキーを送信するための設定
+SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SECURE = True

@@ -77,9 +77,9 @@ class ChatPostForm(forms.ModelForm):
     
     class Meta:
         model = Chat
-        fields = ['chat_room', 'post']
+        fields = ['chat_room_id', 'submission']
         widgets = {
-            'post': forms.TextInput(attrs={'placeholder': 'メッセージを入力', 'maxlength': '120'}),  # placeholderとmaxlengthを追加
+            'submission': forms.TextInput(attrs={'placeholder': 'メッセージを入力', 'maxlength': '120'}),  # placeholderとmaxlengthを追加
         }
 
 class ChatRoomJoinForm(forms.Form):

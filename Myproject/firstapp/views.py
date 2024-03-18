@@ -95,14 +95,14 @@ def edit_profile(request):
 @login_required
 def chatrooms(request):
     join_form = ChatRoomJoinForm()  # チャットルーム参加フォームのインスタンスを作成
-    chat_rooms = Chat.objects.values_list('chat_room', flat=True).distinct()
+    chat_rooms = Chat.objects.values_list('chat_room_id', flat=True).distinct()
 
     if request.method == 'POST':
         join_form = ChatRoomJoinForm(request.POST)
         if join_form.is_valid():
             chat_room = join_form.cleaned_data['chat_room']
             # チャットルーム名が存在するかどうかをチェック
-            if Chat.objects.filter(chat_room=chat_room).exists():
+            if Chat.objects.filter(chat_room_id=chat_room).exists():
                 # 存在する場合は、チャット投稿ビューにリダイレクト
                 return redirect(reverse('firstapp:chat_post', kwargs={'chat_room': chat_room}))
             else:
@@ -123,19 +123,6 @@ def create_chat_room(request):
             return redirect('firstapp:chatrooms')
     return render(request, 'firstapp/new_chatroom.html', {'form': form})
 
-# 新しいチャットルームを作成するビュー
-# @login_required
-# def create_chat_room(request):
-#     form = ChatRoomCreationForm()
-#     if request.method == 'POST':
-#         form = ChatRoomCreationForm(request.POST)
-#         if form.is_valid():
-#             new_chat_room = form.save(commit=False)
-#             new_chat_room.user = request.user
-#             new_chat_room.save()
-#             # 作成後にチャットルーム参加画面にリダイレクト
-#             return redirect('firstapp:chatrooms')
-#     return render(request, 'firstapp/new_chatroom.html', {'form': form})
 
 @login_required
 def chat_post(request, chat_room):
@@ -143,13 +130,14 @@ def chat_post(request, chat_room):
         form = ChatPostForm(request.POST)
         if form.is_valid():
             chat_post = form.save(commit=False)
-            chat_post.user = request.user
+            chat_post.user_id = request.user.id  # ユーザーIDをChatインスタンスのuser_idフィールドに設定
+            chat_post.chat_room_id = chat_room  # チャットルームIDも適切に設定
             chat_post.save()
             return redirect(reverse('firstapp:chat_post', kwargs={'chat_room': chat_room}))
     else:
         form = ChatPostForm(initial={'chat_room': chat_room})
     # チャットを作成日時順に取得してテンプレートに渡す
-    chats = Chat.objects.filter(chat_room=chat_room).order_by('created_at')  # ここに修正を加えます
+    chats = Chat.objects.filter(chat_room_id=chat_room).order_by('created_at')  # ここに修正を加えます
     return render(request, 'firstapp/chat_post.html', {
         'form': form,
         'chats': chats,  # 投稿された全てのチャットを作成日時順にテンプレートに渡す
@@ -163,7 +151,7 @@ def edit_chat_post(request, chat_id):
         form = ChatPostForm(request.POST, instance=chat)
         if form.is_valid():
             form.save()
-            return redirect(reverse('firstapp:chat_post', kwargs={'chat_room': chat.chat_room}))
+            return redirect(reverse('firstapp:chat_post', kwargs={'chat_room': chat.chat_room_id}))
     else:
         form = ChatPostForm(instance=chat)
     return render(request, 'firstapp/edit_chat_post.html', {'form': form, 'chat': chat})
@@ -173,7 +161,7 @@ def delete_chat_post(request, chat_id):
     chat_post = get_object_or_404(Chat, id=chat_id, user=request.user)  # 投稿が存在し、リクエストユーザーが投稿者であることを確認
     if request.method == 'POST':
         chat_post.delete()
-        return redirect('firstapp:chat_post', chat_room=chat_post.chat_room)  # 削除後はチャット投稿画面にリダイレクト
+        return redirect('firstapp:chat_post', chat_room=chat_post.chat_room_id)  # 削除後はチャット投稿画面にリダイレクト
     return render(request, 'firstapp/delete_post.html', {'chat': chat_post})  # GETリクエスト時は確認画面を表示
 
 @login_required
@@ -188,4 +176,5 @@ def like_chat(request, chat_id):
     else:
         liked = True
 
-    return JsonResponse({'liked': liked, 'likes_count': chat.likes.count()})
+    # return JsonResponse({'liked': liked, 'likes_count': chat.likes.count()})
+    return JsonResponse({'liked': liked, 'likes_count':0})
