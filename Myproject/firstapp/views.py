@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login, logout, authenticate
 from .forms import UserCreationForm, LoginForm, UserEditForm, ChatPostForm, ChatRoomJoinForm, ChatRoomCreationForm
-from .models import Chat, Like
+from .models import Chat, Like, User
 from django.urls import reverse
 
 from django.http import JsonResponse
@@ -137,10 +137,28 @@ def chat_post(request, chat_room):
     else:
         form = ChatPostForm(initial={'chat_room': chat_room})
     # チャットを作成日時順に取得してテンプレートに渡す
-    chats = Chat.objects.filter(chat_room_id=chat_room).order_by('created_at')  # ここに修正を加えます
+    chats = Chat.objects.filter(chat_room_id=chat_room).order_by('created_at')
+    # いいね数の辞書を作成 {chat_id: likes_count}
+    likes_count_dict = {chat.id: Like.objects.filter(chat_id=chat.id).count() for chat in chats}
+    # チャットごとにユーザー情報を取得
+    chats_with_user_info = []
+    for chat in chats:
+        # user_idを使ってUserオブジェクトを取得
+        user = User.objects.get(id=chat.user_id)
+        # チャット情報とユーザー情報を組み合わせた辞書を作成
+        chat_info = {
+            'id': chat,
+            'submission': chat.submission,
+            'created_at': chat.created_at,
+            'nickname': user.nickname,  # ニックネームを辞書に追加
+            'user_id': chat.user_id
+        }
+        chats_with_user_info.append(chat_info)
+
     return render(request, 'firstapp/chat_post.html', {
         'form': form,
-        'chats': chats,  # 投稿された全てのチャットを作成日時順にテンプレートに渡す
+        'chats': chats_with_user_info,  # 変更: chats_with_user_infoをテンプレートに渡す
+        'likes_count_dict': likes_count_dict,
         'room_name': chat_room  # チャットルーム名をテンプレートに渡す
     })
 
@@ -167,7 +185,7 @@ def delete_chat_post(request, chat_id):
 @login_required
 def like_chat(request, chat_id):
     chat = get_object_or_404(Chat, id=chat_id)
-    like, created = Like.objects.get_or_create(user=request.user, chat=chat)
+    like, created = Like.objects.get_or_create(user_id=request.user.id, chat_id=chat_id)
     
     if not created:
         # 既にいいねが存在する場合は、いいねを取り消す
@@ -176,5 +194,6 @@ def like_chat(request, chat_id):
     else:
         liked = True
 
+    return JsonResponse({'liked': liked, 'likes_count': Like.objects.filter(chat_id=chat_id).count()})
     # return JsonResponse({'liked': liked, 'likes_count': chat.likes.count()})
-    return JsonResponse({'liked': liked, 'likes_count':0})
+    # return JsonResponse({'liked': liked, 'likes_count':0})

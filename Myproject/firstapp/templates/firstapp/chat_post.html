@@ -18,7 +18,7 @@
 <!-- 投稿されたチャットの表示 -->
 {% for chat in chats %}
     <div class="chat-post">
-        <strong class="nickname">{{ chat.user.nickname }}</strong>: {{ chat.post }}
+        <strong class="nickname">{{ chat.nickname }}</strong>: {{ chat.submission }}
         <!-- 日時表示といいねボタンの配置を変更 -->
         <div class="chat-meta">
             <!-- いいねボタンといいね数の表示 -->
@@ -27,7 +27,7 @@
             <button class="like-btn" data-chat-id="{{ chat.id }}" title="Like">
                 <i class="far fa-heart"></i>
             </button>
-            <span id="likes-count-{{ chat.id }}">{{ chat.likes.count }}</span>
+            <span id="likes-count-{{ chat.id }}">{{ likes_count_dict[chat.id] }}</span>
             </div>
             <!-- 日時の表示 -->
             <small class="text-muted">{{ chat.created_at|date:"Y-m-d H:i" }}</small>
@@ -72,7 +72,7 @@ const postInput = document.querySelector('input[name="post"]');  // postフィ�
             .then(response => response.json())
             .then(data => {
                 const likeCountElement = document.getElementById(`likes-count-${chatId}`);
-                likeCountElement.textContent = data.likes_count;
+                likeCountElement.textContent = data.likes_count;// ここでサーバーからのいいね数を更新
 
                 const heartIcon = this.querySelector('i'); // 子要素の <i> タグを取得
                 if (data.liked) {
