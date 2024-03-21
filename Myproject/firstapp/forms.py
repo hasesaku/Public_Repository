@@ -2,6 +2,7 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm as BaseUserCreationForm
 from django.contrib.auth import get_user_model
 from .models import Chat, ChatRoom
+from django.core.exceptions import ValidationError
 
 User = get_user_model()
 
@@ -89,11 +90,16 @@ class ChatRoomJoinForm(forms.Form):
 # チャットルーム作成フォームを更新
 class ChatRoomCreationForm(forms.ModelForm):
     class Meta:
-        model = ChatRoom  # ChatモデルからChatRoomモデルに変更
+        model = ChatRoom  
         fields = ['name']
         widgets = {
-            'name': forms.TextInput(attrs={'placeholder': '新しいチャットルーム名', 'class': 'form-control'}),
+            'name': forms.TextInput(attrs={'placeholder': '番号を入力', 'class': 'form-control', 'autocomplete': 'off'}),
         }
+    def clean_name(self):
+        name = self.cleaned_data['name']
+        if ChatRoom.objects.filter(name=name).exists():
+            raise ValidationError("このチャットルーム名は既に存在します。")
+        return name
 
 
 

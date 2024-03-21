@@ -167,6 +167,10 @@ div.like-container {
     flex-direction: row-reverse; /* アイテムを逆順（右から左へ）に並べる */
 }
 
+.errorlist {
+    color: red;
+}
+
 /* いいね数の位置を調整 */
 /* span#likes-count- のスタイルはもはや必要ないので削除 */
 /* 代わりに新しいスタイルを追加 */

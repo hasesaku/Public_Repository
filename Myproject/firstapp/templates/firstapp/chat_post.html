@@ -27,12 +27,12 @@
             <button class="like-btn" data-chat-id="{{ chat.id }}" title="Like">
                 <i class="far fa-heart"></i>
             </button>
-            <span id="likes-count-{{ chat.id }}">{{ likes_count_dict[chat.id] }}</span>
+            <span id="likes-count-{{ chat.id }}">{{ chat.likes_count }}</span>
             </div>
             <!-- 日時の表示 -->
             <small class="text-muted">{{ chat.created_at|date:"Y-m-d H:i" }}</small>
         </div>
-        {% if chat.user == request.user %}
+        {% if chat.user_id == request.user.id %}
             <!-- 編集リンクを追加 -->
             <a href="{% url 'firstapp:edit_chat_post' chat.id %}" class="edit-link">編集</a>
              <!-- 削除リンクを追加 -->
@@ -44,7 +44,9 @@
 <script>
 // ページが完全に読み込まれた後に実行
 document.addEventListener('DOMContentLoaded', function() {
-const postInput = document.querySelector('input[name="post"]');  // postフィールドを取得
+  const postInput = document.querySelector('input[name="post"]');  // postフィールドを取得
+
+  if (postInput) {  // postInputがnullでないことを確認
     const counterDisplay = document.createElement('div');  // 文字数を表示するためのdivを作成
     postInput.parentNode.insertBefore(counterDisplay, postInput.nextSibling);  // postInputの直後に挿入
     
@@ -53,6 +55,7 @@ const postInput = document.querySelector('input[name="post"]');  // postフィ�
         const charCount = this.value.length;
         counterDisplay.textContent = `${charCount}/120`;  // 現在の文字数/最大文字数 を表示
     });    
+  }
 
 // いいねボタンにイベントリスナーを設定（修正後）
     document.querySelectorAll('.like-btn').forEach(button => {
@@ -90,3 +93,9 @@ const postInput = document.querySelector('input[name="post"]');  // postフィ�
 </script>
 
 {% endblock %}
+
+// ページが完全に読み込まれた後に実行
+{% comment %} document.addEventListener('DOMContentLoaded', function() {
+const postInput = document.querySelector('input[name="post"]');  // postフィールドを取得 {% endcomment %}
+    {% comment %} const counterDisplay = document.createElement('div');  // 文字数を表示するためのdivを作成 {% endcomment %}
+    {% comment %} postInput.parentNode.insertBefore(counterDisplay, postInput.nextSibling);  // postInputの直後に挿入 {% endcomment %}

@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import User, Chat, Like  # モデルのインポート
+from .models import User, Chat, Like, ChatRoom, Article  # モデルのインポート
 
 # Userモデルの管理用クラス
 class UserAdmin(admin.ModelAdmin):
@@ -21,3 +21,5 @@ class LikeAdmin(admin.ModelAdmin):
 admin.site.register(User, UserAdmin)
 admin.site.register(Chat, ChatAdmin)
 admin.site.register(Like, LikeAdmin)
+admin.site.register(ChatRoom)
+admin.site.register(Article)

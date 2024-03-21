@@ -5,8 +5,8 @@
 
 <!-- 投稿の詳細表示 -->
 <div class="post-details">
-    <p><strong>投稿者:</strong> {{ chat.user.nickname }}</p>
-    <p><strong>投稿内容:</strong> {{ chat.post }}</p>
+    <p><strong>投稿者:</strong> {{ nickname }}</p>
+    <p><strong>投稿内容:</strong> {{ chat.submission }}</p>
     <p><strong>投稿日時:</strong> {{ chat.created_at|date:"Y-m-d H:i" }}</p>
 </div>
 
@@ -14,6 +14,6 @@
 <form method="post">
     {% csrf_token %}
     <button type="submit" class="btn btn-danger">削除</button>
-    <a href="{% url 'firstapp:chat_post' chat.chat_room %}" class="btn btn-secondary">キャンセル</a>
+    <a href="{% url 'firstapp:chat_post' chat_room_id %}" class="btn btn-secondary">キャンセル</a>
 </form>
 {% endblock %}

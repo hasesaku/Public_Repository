@@ -32,5 +32,7 @@ urlpatterns = [
     path('like_chat/<int:chat_id>/', views.like_chat, name='like_chat'),
     # 新しいチャットルーム作成URLの追加
     path('new_chatroom/', views.create_chat_room, name='new_chatroom'),
+    # 記事一覧ページのURLを追加
+    path('article_list/', views.article_list, name='article_list'),
     # その他のURLパターン...
 ]
