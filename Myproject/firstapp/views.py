@@ -9,7 +9,10 @@ from django.http import JsonResponse
 
 # トップ画面のビュー関数を追加
 def index(request):
-    return render(request, 'firstapp/index.html')
+    if request.user.is_authenticated:
+        return redirect('firstapp:home')  # ホーム画面へリダイレクト
+    else:
+        return render(request, 'firstapp/index.html')
 
 def register(request):
     if request.method == 'POST':
@@ -148,6 +151,8 @@ def chat_post(request, chat_room):
         user = User.objects.get(id=chat.user_id)
         # いいねの数を取得
         likes_count = Like.objects.filter(chat_id=chat.id).count()
+        # このユーザーがいいねしているかどうか
+        user_liked = Like.objects.filter(chat_id=chat.id, user_id=request.user.id).exists()
         # チャット情報とユーザー情報を組み合わせた辞書を作成
         chat_info = {
             'id': chat.id,
@@ -155,7 +160,8 @@ def chat_post(request, chat_room):
             'created_at': chat.created_at,
             'nickname': user.nickname,  # ニックネームを辞書に追加
             'user_id': chat.user_id,
-            'likes_count': likes_count  # いいねの数を辞書に追加
+            'likes_count': likes_count,  # いいねの数を辞書に追加
+            'user_liked': user_liked,  # いいねしている状態を辞書に追加
         }
         chats_with_user_info.append(chat_info)
 

@@ -2,12 +2,16 @@
 
 {% block content %}
 <h2>投稿編集画面 - {{ chat.chat_room_id }}</h2>
-
-<form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <input type="hidden" name="chat_room" value="{{ chat.chat_room_id }}">
-    <button type="submit">更新</button>
-</form>
-
+<div class="user-info">
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <input type="hidden" name="chat_room" value="{{ chat.chat_room_id }}">
+        <button type="submit">更新</button>
+    </form>
+    <!-- 戻るボタンを追加 -->
+    <div style="text-align: center;">
+        <a href="{% url 'firstapp:chat_post' chat.chat_room_id %}" class="btn btn-secondary mt-3">戻る</a>
+    </div>
+</div>
 {% endblock %}

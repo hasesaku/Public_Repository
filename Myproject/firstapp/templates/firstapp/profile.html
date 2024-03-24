@@ -4,12 +4,17 @@
 
 {% block content %}
 <h2>プロフィール</h2>
-
-<p>メールアドレス: {{ user.email }}</p>
-<p>ユーザーネーム: {{ user.username }}</p>
-<p>ニックネーム: {{ user.nickname }}</p>
-<p>現在のパスワード: ********</p>
-
-<!-- プロフィール編集画面へのリンク -->
-<a href="{% url 'firstapp:edit_profile' %}">プロフィール編集</a>
+<div class="profile-container">
+  
+  <div class="user-info">
+      <p>メールアドレス: {{ user.email }}</p>
+      <p>ユーザーネーム: {{ user.username }}</p>
+      <p>ニックネーム: {{ user.nickname }}</p>
+      <p>現在のパスワード: ********</p>
+  </div>
+  <div style="text-align: center;">
+  <!-- プロフィール編集画面へのリンク -->
+  <a href="{% url 'firstapp:edit_profile' %}" class="btn btn-primary">プロフィール編集</a>
+  </div>
+</div>
 {% endblock %}

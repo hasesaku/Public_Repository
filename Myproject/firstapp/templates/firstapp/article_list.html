@@ -6,10 +6,14 @@
     {% for article in articles %}
     <div class="article">
         <h2>{{ article.title }}</h2>
-        <p>{{ article.text }}</p>
+        <p>{{ article.text|safe }}</p>
         <p>作成日: {{ article.created_at }}</p>
         <p>最終更新日: {{ article.update_at }}</p>
     </div>
     {% endfor %}
+    <!-- 戻るボタンの追加 -->
+    <div style="text-align: center;">
+        <a href="{% url 'firstapp:home' %}" class="btn-secondary">戻る</a>
+    </div>
 </div>
 {% endblock %}

@@ -6,6 +6,7 @@
 <h2>プロフィール編集</h2>
 
 <!-- ユーザー情報の編集フォーム -->
+<div class="user-info">
 <form method="post">
     {% csrf_token %}
     {% for field in form %}
@@ -22,10 +23,13 @@
     {% endfor %}
     <button type="submit">更新</button>
 </form>
-
+</div>
 <!-- アカウント削除機能へのリンク -->
-<a href="{% url 'firstapp:delete_user' %}" onclick="return confirm('アカウントを削除してもよろしいですか？');">アカウント削除</a>
-
+<div class="user-info">
+    <a href="{% url 'firstapp:delete_user' %}" onclick="return confirm('アカウントを削除してもよろしいですか？');">アカウント削除</a>
+</div>
 <!-- 前に戻るボタン -->
-<a href="{% url 'firstapp:profile' %}">プロフィールに戻る</a>
+<div class="user-info">
+    <a href="{% url 'firstapp:profile' %}">プロフィールに戻る</a>
+</div>
 {% endblock %}

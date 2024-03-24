@@ -2,12 +2,16 @@
 
 {% block content %}
 <div class="text-center mt-5">
-    <h1>ようこそ！繊細さんのコミュニティアプリへ</h1>
-    {% if user.is_authenticated %}
-        <p>Hello, {{ user.username }}!</p>
-    {% else %}
+    <h1>Welcome!Carechat</h1>
+    <!-- ウェルカムメッセージの追加 -->
+    <div class="welcome-message">
+        <p>繊細さんのためのコミュニティアプリへようこそ。</p>
+        <p>このアプリはあなたの心をさらけ出せる自由なチャットアプリです。</p>
+        <p>さあ始めよう！ありのままの自分を好きでいるために。</p>
+    </div>
+    <div class="auth-buttons">
         <p><a href="{% url 'firstapp:register' %}" class="btn btn-primary">新規ユーザー登録</a></p>
         <p><a href="{% url 'firstapp:login' %}" class="btn btn-secondary">ログイン</a></p>
-    {% endif %}
+    </div>
 </div>
 {% endblock %}

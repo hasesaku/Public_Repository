@@ -1,8 +1,7 @@
 {% extends 'firstapp/base.html' %}
 
 {% block content %}
-
-<form method="post" class="needs-validation" novalidate>
+<form method="post" class="needs-validation register-info" novalidate>
     {% csrf_token %}
     <div class="form-group">
         <label for="email">メールアドレス</label>
@@ -38,5 +37,8 @@
     </div>
     <button type="submit" class="btn btn-primary">登録</button>
 </form>
-
+        <!-- トップ画面への戻るボタンを追加 -->
+    <div style="text-align: center;">
+        <a href="{% url 'firstapp:index' %}" class="btn btn-secondary mt-3">戻る</a>
+    </div>
 {% endblock %}

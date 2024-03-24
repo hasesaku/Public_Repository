@@ -1,31 +1,9 @@
-/* ホームページの見出しスタイル */
-.home-page h1 {
-    margin-bottom: 20px;
+h2{
+    text-align: center; /* テキストを中央揃えに */ 
 }
-/* リストグループアイテムのスタイル */
-.list-group-item {
-    border-radius: 0;
-    border-left: 3px solid #007bff;
-}
-/* リストグループアイテムのホバースタイル */
-.list-group-item-action:hover {
-    background-color: #f8f9fa;
-    border-left: 3px solid #0056b3;
-}
-/* ボタンの基本スタイル */
-.btn-primary, .btn-secondary {
-    width: auto; /* 幅を自動調整に変更します。固定幅を指定していた部分を削除またはコメントアウトします。 */
-    font-size: 16px; /* フォントサイズを指定 */
-    padding: 10px 20px; /* 内側の余白を調整 */
-}
-
-/* ナビゲーションバーのブランドスタイル */
-.navbar-brand {
-    font-weight: bold;
-}
-/* ナビゲーションリンクのスタイル */
-.nav-link {
-    font-size: 16px;
+h4{
+    text-align: center;
+    margin: 20px auto;
 }
 /* 全体のフォントと背景色を改善 */
 body {
@@ -46,6 +24,39 @@ form {
 .form-group {
     margin-bottom: 15px; /* 各フォーム要素の下に余白を追加 */
 }
+
+a {
+  text-decoration: none;
+}
+
+/* ホームページの見出しスタイル */
+.home-page h1 {
+    margin-bottom: 20px;
+}
+/* リストグループアイテムのスタイル */
+.list-group-item {
+    border-radius: 0;
+    border-left: 3px solid #007bff;
+}
+/* リストグループアイテムのホバースタイル */
+.list-group-item-action:hover {
+    background-color: #f8f9fa;
+    border-left: 3px solid #0056b3;
+}
+/* 認証ボタンのコンテナスタイル */
+.auth-buttons {
+    display: flex; /* flexボックスモデルを適用し、横並びにする */
+    justify-content: center; /* 中央寄せ */
+    gap: 10px; /* ボタンの間に10pxのギャップを追加 */
+}
+/* ボタンの基本スタイル */
+.btn-primary, .btn-secondary {
+    width: auto; /* 幅を自動調整に変更します。固定幅を指定していた部分を削除またはコメントアウトします。 */
+    font-size: 16px; /* フォントサイズを指定 */
+    padding: 10px 20px; /* 内側の余白を調整 */
+    margin: 20px auto; /* 上下の余白を20pxに設定し、左右は自動（中央揃え） */
+}
+
 /* ボタンのスタイルを統一 */
 button, .btn-primary, .btn-secondary {
     background-color: #007bff; /* 背景色 */
@@ -53,18 +64,87 @@ button, .btn-primary, .btn-secondary {
     border: none; /* 枠線を消す */
     padding: 10px 20px; /* 内側の余白 */
     margin-top: 10px; /* 上の余白 */
+    margin-right: 10px; /* 右に余白を設ける */
     border-radius: 5px; /* 角を丸く */
     cursor: pointer; /* カーソルをポインターに */
-    width: 15%; /* 幅の設定 */
+    width: auto; /* ボタンの幅を自動調整に */
     box-sizing: border-box; /* パディングとボーダーを幅に含める */
 }
-
+/* 削除ボタンのスタイル */
+.btn-danger {
+    background-color: #dc3545; /* 削除ボタンの背景色を赤系に設定 */
+    color: white; /* テキスト色を白に */
+    border: none; /* 枠線をなしに */
+    padding: 10px 20px; /* パディングを設定 */
+    margin-top: 10px; /* 上のマージン */
+    margin-right: 10px; /* 右のマージン */
+    border-radius: 5px; /* 角の丸み */
+    cursor: pointer; /* カーソルをポインターに */
+    width: auto; /* 幅を自動調整に */
+    box-sizing: border-box; /* ボックスサイズを境界ボックスに */
+}
 /* ボタンのホバースタイル */
-button:hover, .btn-primary:hover, .btn-secondary:hover {
+button:hover, .btn-primary:hover, .btn-secondary:hover .btn-danger:hover .btn-delete:hover{
     background-color: #0069d9; /* ホバー時の色 */
     opacity: 0.8; /* ホバー時の透明度 */
 }
+/* チャットルーム作成ボタンの余白調整 */
+.btn-margin {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+/* ボタンの水平配置と中央揃え用スタイリング */
+.button-group {
+    text-align: center; /* ボタンを中央に */
+}
+/*投稿削除キャンセルボタンのスタイル*/
+.btn-delete{
+    background-color: #0069d9;
+    color: white; /* テキスト色を白に */
+}
+.btn-danger, .btn-delete {
+    display: inline-block; /* ボタンをインライン表示に */
+    padding: 10px 20px; /* パディングを適用 */
+    margin: 0 5px; /* ボタン間の余白 */
+    width: auto; /* 幅を自動に */
+    box-sizing: border-box; /* ボックスサイズを境界ボックスに */
+}
 
+/* ナビゲーションバーのブランドスタイル */
+.navbar-brand {
+    font-weight: bold;
+}
+/* ナビゲーションリンクのスタイル */
+.nav-link {
+    font-size: 16px;
+}
+/*新規ユーザー登録のスタイル*/
+.register-info {
+    text-align: center; /* テキストを中央揃えに */
+    margin: 0 auto; /* 上下の余白を0にし、左右の余白を自動調整で中央揃えに */
+    width: fit-content; /* コンテンツの幅に合わせて幅を自動調整 */
+}
+/* プロフィールコンテナのスタイル */
+.profile-container {
+    max-width: 500px; /* コンテナの最大幅を設定 */
+    margin: auto; /* 中央揃え */
+    padding: 20px; /* 内側の余白 */
+    background: #ffffff; /* 背景色 */
+    border-radius: 8px; /* 角を丸く */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* ソフトな影を追加 */
+}
+/* ユーザー情報テキストの中央揃え */
+.user-info {
+    text-align: center; /* テキストを中央揃えに */
+    margin: 0 auto; /* 上下の余白を0にし、左右の余白を自動調整で中央揃えに */
+    margin-bottom: 20px; /* 下の余白 */
+}
+/* ログイン情報テキストの中央揃え */
+.login-info {
+    text-align: center; /* テキストを中央揃えに */
+    margin: 0 auto; /* 上下の余白を0にし、左右の余白を自動調整で中央揃えに */
+    width: fit-content; /* コンテンツの幅に合わせて幅を自動調整 */
+}
 /* チャットの投稿スタイル */
 div.chat-post {
     border: 1px solid #eaeaea; /* 枠線 */
@@ -72,6 +152,12 @@ div.chat-post {
     padding: 10px; /* 内側の余白 */
     border-radius: 10px; /* 角を丸く */
     background-color: white; /* 背景色 */
+}
+/* 投稿削除確認画面のスタイル */
+.post-info {
+    text-align: center; /* 文字を中央揃えにします */
+    padding: 20px; /* 内側の余白を設定 */
+    margin: auto; /* 自動的に中央に配置 */
 }
 /* ニックネームと日時のスタイル */
 strong.nickname {
@@ -157,7 +243,6 @@ div.chat-post {
     color: #ff69b4; /* ピンク色に変更 */
 }
 
-/* 省略 */
 
 /* いいねボタンのコンテナスタイル */
 div.like-container {
@@ -166,18 +251,20 @@ div.like-container {
     justify-content: flex-end; /* 右寄せ */
     flex-direction: row-reverse; /* アイテムを逆順（右から左へ）に並べる */
 }
-
+/* 記事一覧のスタイルを追加 */
+.article-list {
+    max-width: 800px; /* 最大幅を設定 */
+    margin: auto; /* 左右のマージンを自動で調整し中央寄せ */
+    padding: 20px; /* 内側の余白 */
+}
+.article {
+    margin-bottom: 20px; /* 記事ごとの下マージン */
+    padding: 20px; /* 内側の余白 */
+    background-color: #ffffff; /* 背景色を白に */
+    border-radius: 10px; /* 角を丸く */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* ソフトな影 */
+    text-align: left; /* テキストを左揃え */
+}
 .errorlist {
     color: red;
 }
-
-/* いいね数の位置を調整 */
-/* span#likes-count- のスタイルはもはや必要ないので削除 */
-/* 代わりに新しいスタイルを追加 */
-/*span[id^="likes-count-"] {
-    /* position: absolute; このプロパティは不要になるので削除 */
-    /* left: 20px; このプロパティは不要になるので削除 */
-    /* top: 0; このプロパティは不要になるので削除 */
-    /*margin-left: 10px; /* ハートアイコンの右側にマージンを追加 */
-    /* その他のスタイルは必要に応じて調整 */
-/*}

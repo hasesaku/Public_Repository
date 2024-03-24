@@ -26,12 +26,10 @@ class UserCreationForm(BaseUserCreationForm):
 
     def __init__(self, *args, **kwargs):
         super(UserCreationForm, self).__init__(*args, **kwargs)
-        # del self.fields['password1']
-        # del self.fields['password2']
 
 class LoginForm(forms.Form):
-    email = forms.EmailField()
-    password = forms.CharField(widget=forms.PasswordInput())
+    email = forms.EmailField(label="メールアドレス")
+    password = forms.CharField(label="パスワード", widget=forms.PasswordInput())
         
 # UserEditFormにパスワード変更機能を追加
 class UserEditForm(forms.ModelForm):
@@ -78,7 +76,7 @@ class ChatPostForm(forms.ModelForm):
     
     class Meta:
         model = Chat
-        fields = ['chat_room_id', 'submission']
+        fields = ['submission']
         widgets = {
             'submission': forms.TextInput(attrs={'placeholder': 'メッセージを入力', 'maxlength': '120'}),  # placeholderとmaxlengthを追加
         }

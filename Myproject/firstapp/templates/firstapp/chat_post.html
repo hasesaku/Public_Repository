@@ -23,9 +23,14 @@
         <div class="chat-meta">
             <!-- いいねボタンといいね数の表示 -->
             <div class="like-container">
-    <!-- Font Awesomeのハートアイコンを使用 -->
-            <button class="like-btn" data-chat-id="{{ chat.id }}" title="Like">
-                <i class="far fa-heart"></i>
+                <!-- Font Awesomeのハートアイコンを使用 -->
+                <button class="like-btn {% if chat.user_liked %}is-liked{% endif %}" data-chat-id="{{ chat.id }}" title="Like">
+                    <!-- ここで条件分岐 -->
+                    {% if chat.user_liked %}
+                        <i class="fas fa-heart"></i> <!-- いいね済みの場合 -->
+                    {% else %}
+                        <i class="far fa-heart"></i> <!-- いいねしていない場合 -->
+                    {% endif %}
             </button>
             <span id="likes-count-{{ chat.id }}">{{ chat.likes_count }}</span>
             </div>

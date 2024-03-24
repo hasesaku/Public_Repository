@@ -8,18 +8,21 @@
 <form method="post">
     {% csrf_token %}
     {{ join_form.as_p }}
-    <button type="submit">チャットに参加</button>
+    <div style="text-align: center;">
+        <button type="submit">チャットに参加</button>
+    </div>
 </form>
 
-<a href="{% url 'firstapp:new_chatroom' %}" class="btn btn-success">新しいチャットルームを作成</a>
-
 <!-- チャットルーム一覧表示 -->
-<h4>👇チャットルーム一覧👇</h4>
+<h4>チャットルーム一覧</h4>
 <ul class="list-group">
     {% for chat_room in chat_rooms %}
     <!-- 修正: チャットルーム名を表示する -->
     <li class="list-group-item">{{ chat_room.name }}</li>
     {% endfor %}
+    <div style="text-align: center;">
+        <a href="{% url 'firstapp:new_chatroom' %}" class="btn btn-success btn-margin">新しいチャットルームを作成</a>
+    </div>
 {% endblock %}
 
 
