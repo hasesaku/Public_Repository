@@ -7,6 +7,8 @@ from django.core.exceptions import ValidationError
 User = get_user_model()
 
 class UserCreationForm(BaseUserCreationForm):
+    email = forms.EmailField(required=True, label="メールアドレス",
+                             error_messages={'invalid': 'メールアドレスの形式で入力してください。例: user@example.com'})
     nickname = forms.CharField(required=True, label="ニックネーム")
     # ユーザーネームフィールドを追加
     username = forms.CharField(required=True, label="ユーザーネーム")
@@ -46,6 +48,15 @@ class UserEditForm(forms.ModelForm):
         self.fields['email'].widget.attrs.update({'placeholder': 'メールアドレス'})
         self.fields['username'].widget.attrs.update({'placeholder': 'ユーザー名'})
         self.fields['nickname'].widget.attrs.update({'placeholder': 'ニックネーム'})
+        
+    def clean_current_password(self):
+        current_password = self.cleaned_data.get("current_password")
+        if current_password:
+            if not self.instance.check_password(current_password):
+                raise forms.ValidationError('現在のパスワードが正しくありません。')
+            return current_password
+        else:
+            raise forms.ValidationError('この項目は入力必須です。')
 
     def clean(self):
         cleaned_data = super().clean()
@@ -53,12 +64,12 @@ class UserEditForm(forms.ModelForm):
         new_password = cleaned_data.get("new_password")
         confirm_password = cleaned_data.get("confirm_password")
 
-        if new_password and new_password != confirm_password:
-            self.add_error('confirm_password', '新しいパスワードが一致しません。')
-
-        if current_password and not self.instance.check_password(current_password):
-            self.add_error('current_password', '現在のパスワードが正しくありません。')
-
+        # 新しいパスワードとパスワード確認が両方とも空でない場合にチェックする
+        if new_password or confirm_password:
+            if new_password != confirm_password:
+                self.add_error('confirm_password', '新しいパスワードが一致しません。')
+            if not self.instance.check_password(current_password):
+                self.add_error('current_password', '現在のパスワードが正しくありません。')
         return cleaned_data
 
     def save(self, commit=True):
@@ -98,18 +109,3 @@ class ChatRoomCreationForm(forms.ModelForm):
         if ChatRoom.objects.filter(name=name).exists():
             raise ValidationError("このチャットルーム名は既に存在します。")
         return name
-
-
-
-# # 新しいチャットルーム作成フォームの追加
-# class ChatRoomOnlyNameForm(forms.Form):
-#     chat_room = forms.CharField(max_length=255, widget=forms.TextInput(attrs={'placeholder': '新しいチャットルーム名', 'class': 'form-control'}))    
-
-# 新しいチャットルーム作成フォームの追加
-# class ChatRoomCreationForm(forms.ModelForm):
-#     class Meta:
-#         model = Chat
-#         fields = ['chat_room']
-#         widgets = {
-#             'chat_room': forms.TextInput(attrs={'placeholder': '新しいチャットルーム名', 'class': 'form-control'}),
-#         }

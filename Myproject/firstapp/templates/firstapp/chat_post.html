@@ -98,9 +98,3 @@ document.addEventListener('DOMContentLoaded', function() {
 </script>
 
 {% endblock %}
-
-// ページが完全に読み込まれた後に実行
-{% comment %} document.addEventListener('DOMContentLoaded', function() {
-const postInput = document.querySelector('input[name="post"]');  // postフィールドを取得 {% endcomment %}
-    {% comment %} const counterDisplay = document.createElement('div');  // 文字数を表示するためのdivを作成 {% endcomment %}
-    {% comment %} postInput.parentNode.insertBefore(counterDisplay, postInput.nextSibling);  // postInputの直後に挿入 {% endcomment %}

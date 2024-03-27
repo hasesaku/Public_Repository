@@ -83,17 +83,48 @@ def edit_profile(request):
     if request.method == 'POST':
         form = UserEditForm(request.POST, instance=request.user)
         if form.is_valid():
-            user = form.save()
-            # パスワードが変更された場合、ユーザーを再認証する
-            new_password = form.cleaned_data.get('new_password')
-            if new_password:
-                user = authenticate(email=user.email, password=new_password)
-                if user:
-                    login(request, user)
-            return redirect('firstapp:profile')  # 更新後はプロフィールにリダイレクト
+            # '現在のパスワード'があるかを確認し、あればインスタンスを保存
+            if form.cleaned_data.get('current_password'):
+                user = form.save(commit=False)
+                new_password = form.cleaned_data.get('new_password')
+                # パスワードフィールドが空でないことを確認する
+                if new_password:
+                    user.set_password(new_password)
+                user.save()
+                # 新しいパスワードでユーザーを再認証する
+                if new_password:
+                    user = authenticate(email=user.email, password=new_password)
+                    if user:
+                        login(request, user)
+                return redirect('firstapp:profile')  # 更新後はプロフィールにリダイレクト
     else:
         form = UserEditForm(instance=request.user)
-    return render(request, 'firstapp/edit_profile.html', {'form': form})
+    return render(request, 'firstapp/edit_profile.html', {'form': form})           
+
+        # if form.is_valid():
+        #     user = form.save(commit=False)
+        #     new_password = form.cleaned_data.get('new_password')
+        #         if new_password:
+        #     user.set_password(new_password)
+        #     user.save()
+        #     # パスワードが変更された場合、ユーザーを再認証する
+        #     user = authenticate(email=user.email, password=new_password)
+        #     if user:
+        #         login(request, user)
+        # else:
+        #     user.save()
+        # return redirect('firstapp:profile')  # 更新後はプロフィールにリダイレクト           
+    #        user = form.save()
+    #         # パスワードが変更された場合、ユーザーを再認証する
+    #         new_password = form.cleaned_data.get('new_password')
+    #         if new_password:
+    #             user = authenticate(email=user.email, password=new_password)
+    #             if user:
+    #                 login(request, user)
+    #         return redirect('firstapp:profile')  # 更新後はプロフィールにリダイレクト
+    # else:
+    #     form = UserEditForm(instance=request.user)
+    # return render(request, 'firstapp/edit_profile.html', {'form': form})
 
 @login_required
 def chatrooms(request):
@@ -221,22 +252,6 @@ def like_chat(request, chat_id):
         return JsonResponse({'liked': liked, 'likes_count': likes_count})
     else:
         return JsonResponse({'error': 'Invalid request'}, status=400)
-
-# @login_required
-# def like_chat(request, chat_id):
-#     chat = get_object_or_404(Chat, id=chat_id)
-#     like, created = Like.objects.get_or_create(user_id=request.user.id, chat_id=chat_id)
-    
-#     if not created:
-#         # 既にいいねが存在する場合は、いいねを取り消す
-#         like.delete()
-#         liked = False
-#     else:
-#         liked = True
-
-#     return JsonResponse({'liked': liked, 'likes_count': Like.objects.filter(chat_id=chat_id).count()})
-    # return JsonResponse({'liked': liked, 'likes_count': chat.likes.count()})
-    # return JsonResponse({'liked': liked, 'likes_count':0})
     
 @login_required
 def article_list(request):
