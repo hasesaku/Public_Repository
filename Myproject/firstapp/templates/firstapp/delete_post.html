@@ -12,11 +12,12 @@
         <p>本当にこの投稿を削除しますか？</p>
     </div>
 
-    
-    <div class="button-group">
+    <form method="post" action="{% url 'firstapp:delete_chat_post' chat.id %}">    
         {% csrf_token %}
+    <div class="button-group">
         <button type="submit" class="btn btn-danger">削除</button>
         <a href="{% url 'firstapp:chat_post' chat_room_id %}" class="btn btn-delete">キャンセル</a>
     </div>
+    </form>
 </div>
 {% endblock %}

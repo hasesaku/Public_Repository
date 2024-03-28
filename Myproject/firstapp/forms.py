@@ -1,6 +1,6 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm as BaseUserCreationForm
-from django.contrib.auth import get_user_model
+from django.contrib.auth import get_user_model, authenticate
 from .models import Chat, ChatRoom
 from django.core.exceptions import ValidationError
 
@@ -30,10 +30,34 @@ class UserCreationForm(BaseUserCreationForm):
         super(UserCreationForm, self).__init__(*args, **kwargs)
 
 class LoginForm(forms.Form):
-    email = forms.EmailField(label="メールアドレス")
+    email = forms.EmailField(label="メールアドレス",
+                             error_messages={'invalid': 'メールアドレスの形式で入力してください。例: user@example.com'})
     password = forms.CharField(label="パスワード", widget=forms.PasswordInput())
+
+    def clean_email(self):
+        email = self.cleaned_data.get('email')
+        if not email:
+            raise forms.ValidationError("メールアドレスを入力してください。")
+        return email
+
+    def clean_password(self):
+        password = self.cleaned_data.get('password')
+        if not password:
+            raise forms.ValidationError("パスワードを入力してください。")
+        return password
+
+    def clean(self):
+        cleaned_data = super().clean()
+        email = cleaned_data.get('email')
+        password = cleaned_data.get('password')
         
-# UserEditFormにパスワード変更機能を追加
+        if email and password:
+            user = authenticate(email=email, password=password)
+            if user is None:
+                raise ValidationError("メールアドレスかパスワードが間違っています。")
+
+        return cleaned_data
+            
 class UserEditForm(forms.ModelForm):
     current_password = forms.CharField(widget=forms.PasswordInput(attrs={'placeholder': '現在のパスワード'}), required=False, label='現在のパスワード')
     new_password = forms.CharField(widget=forms.PasswordInput(attrs={'placeholder': '新しいパスワード'}), required=False, label='新しいパスワード')
@@ -48,22 +72,20 @@ class UserEditForm(forms.ModelForm):
         self.fields['email'].widget.attrs.update({'placeholder': 'メールアドレス'})
         self.fields['username'].widget.attrs.update({'placeholder': 'ユーザー名'})
         self.fields['nickname'].widget.attrs.update({'placeholder': 'ニックネーム'})
-        
+
     def clean_current_password(self):
         current_password = self.cleaned_data.get("current_password")
-        if current_password:
-            if not self.instance.check_password(current_password):
-                raise forms.ValidationError('現在のパスワードが正しくありません。')
-            return current_password
-        else:
-            raise forms.ValidationError('この項目は入力必須です。')
-
+        if current_password and not self.instance.check_password(current_password):
+            # ここでのエラー追加はやめて、cleanメソッドに任せる。
+            pass  
+        return current_password
+        
     def clean(self):
         cleaned_data = super().clean()
         current_password = cleaned_data.get("current_password")
         new_password = cleaned_data.get("new_password")
         confirm_password = cleaned_data.get("confirm_password")
-
+        
         # 新しいパスワードとパスワード確認が両方とも空でない場合にチェックする
         if new_password or confirm_password:
             if new_password != confirm_password:

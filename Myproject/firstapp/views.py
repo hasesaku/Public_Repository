@@ -38,6 +38,9 @@ def user_login(request):
             if user is not None:
                 login(request, user)
                 return redirect('firstapp:home')  # ホーム画面へリダイレクトするためのURL名
+        else:
+            # フォームが無効な場合は、フォームを再度表示しエラーメッセージを含める
+            return render(request, 'firstapp/login.html', {'form': form})
     else:
         form = LoginForm()
     return render(request, 'firstapp/login.html', {'form': form})
@@ -101,31 +104,6 @@ def edit_profile(request):
         form = UserEditForm(instance=request.user)
     return render(request, 'firstapp/edit_profile.html', {'form': form})           
 
-        # if form.is_valid():
-        #     user = form.save(commit=False)
-        #     new_password = form.cleaned_data.get('new_password')
-        #         if new_password:
-        #     user.set_password(new_password)
-        #     user.save()
-        #     # パスワードが変更された場合、ユーザーを再認証する
-        #     user = authenticate(email=user.email, password=new_password)
-        #     if user:
-        #         login(request, user)
-        # else:
-        #     user.save()
-        # return redirect('firstapp:profile')  # 更新後はプロフィールにリダイレクト           
-    #        user = form.save()
-    #         # パスワードが変更された場合、ユーザーを再認証する
-    #         new_password = form.cleaned_data.get('new_password')
-    #         if new_password:
-    #             user = authenticate(email=user.email, password=new_password)
-    #             if user:
-    #                 login(request, user)
-    #         return redirect('firstapp:profile')  # 更新後はプロフィールにリダイレクト
-    # else:
-    #     form = UserEditForm(instance=request.user)
-    # return render(request, 'firstapp/edit_profile.html', {'form': form})
-
 @login_required
 def chatrooms(request):
     join_form = ChatRoomJoinForm()  # チャットルーム参加フォームのインスタンスを作成
@@ -159,7 +137,6 @@ def create_chat_room(request):
             # 作成後にチャットルーム参加画面にリダイレクト
             return redirect('firstapp:chatrooms')
     return render(request, 'firstapp/new_chatroom.html', {'form': form})
-
 
 @login_required
 def chat_post(request, chat_room):

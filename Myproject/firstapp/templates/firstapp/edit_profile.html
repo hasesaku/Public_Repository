@@ -10,16 +10,16 @@
 <form method="post">
     {% csrf_token %}
     {% for field in form %}
-        <p>
-            {{ field.label_tag }}<br>
-            {{ field }}
-            {% if field.help_text %}
-                <small style="color: grey">{{ field.help_text }}</small>
-            {% endif %}
-            {% for error in field.errors %}
-                <strong style="color: red">{{ error }}</strong>
-            {% endfor %}
-        </p>
+    <div class="form-group">  <!-- form-groupクラスを追加してグループ化 -->
+        {{ field.label_tag }}<br>
+        {{ field }}
+        {% if field.help_text %}
+            <small style="color: grey">{{ field.help_text }}</small>
+        {% endif %}
+        {% for error in field.errors %}
+            <div class="error-message" style="color: red;">{{ error }}</div>
+        {% endfor %}
+    </div>
     {% endfor %}
     <button type="submit">更新</button>
 </form>
@@ -33,3 +33,16 @@
     <a href="{% url 'firstapp:profile' %}">プロフィールに戻る</a>
 </div>
 {% endblock %}
+
+    {% comment %} {% for field in form %}
+        <p>
+            {{ field.label_tag }}<br>
+            {{ field }}
+            {% if field.help_text %}
+                <small style="color: grey">{{ field.help_text }}</small>
+            {% endif %}
+            {% for error in field.errors %}
+                <strong style="color: red">{{ error }}</strong>
+            {% endfor %}
+        </p>
+    {% endfor %} {% endcomment %}
