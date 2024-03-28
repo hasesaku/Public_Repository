@@ -111,7 +111,8 @@ class ChatPostForm(forms.ModelForm):
         model = Chat
         fields = ['submission']
         widgets = {
-            'submission': forms.TextInput(attrs={'placeholder': 'メッセージを入力', 'maxlength': '120'}),  # placeholderとmaxlengthを追加
+            # submissionフィールドをTextInputからTextareaに変更し、placeholderとmaxlength属性を設定
+            'submission': forms.Textarea(attrs={'placeholder': '120文字以内で入力してください。', 'maxlength': '120', 'rows': 3, 'cols': 100}), 
         }
 
 class ChatRoomJoinForm(forms.Form):

@@ -3,17 +3,24 @@
 {% extends 'firstapp/base.html' %}
 
 {% block content %}
-<h2>{{ room_name }}</h2>
+<h2>ルーム{{ room_name }}</h2>
 
 <!-- チャット投稿フォーム -->
-<form method="post">
+<form method="post" style="display: flex; justify-content: space-between; align-items: flex-end;">
+    {% csrf_token %}
+    <div style="flex-grow: 1; margin-right: 10px;">{{ form.as_p }}</div>
+    <button type="submit" class="btn btn-primary">送信</button>
+</form>
+{% comment %} <form method="post">
     {% csrf_token %}
     {{ form.as_p }}
     <button type="submit">送信</button>
-</form>
+</form> {% endcomment %}
 
 <!-- チャットルーム参加画面への戻るボタンを追加 -->
-<a href="{% url 'firstapp:chatrooms' %}" class="btn btn-secondary mt-3">前に戻る</a>
+<div style="text-align: center;">
+<a href="{% url 'firstapp:chatrooms' %}" class="btn btn-secondary mt-3">チャット選択画面に戻る</a>
+</div>
 
 <!-- 投稿されたチャットの表示 -->
 {% for chat in chats %}
