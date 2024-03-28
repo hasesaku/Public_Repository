@@ -17,8 +17,13 @@
 <h4>チャットルーム一覧</h4>
 <ul class="list-group">
     {% for chat_room in chat_rooms %}
-    <!-- 修正: チャットルーム名を表示する -->
-    <li class="list-group-item">{{ chat_room.name }}</li>
+    <!-- チャットルーム名を表示する -->
+    <li class="list-group-item">
+        {{ chat_room.name }}
+        <!-- 参加ボタンを追加 -->
+        <!-- 'chat_post' ビューのURLに chat_room.name を正しく渡す -->
+        <a href="{% url 'firstapp:chat_post' chat_room.name %}" class="btn btn-primary btn-sm float-right">参加</a>
+    </li>
     {% endfor %}
     <div style="text-align: center;">
         <a href="{% url 'firstapp:new_chatroom' %}" class="btn btn-success btn-margin">新しいチャットルームを作成</a>

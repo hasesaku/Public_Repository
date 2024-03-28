@@ -142,3 +142,4 @@ class ChatRoomCreationForm(forms.ModelForm):
         if ChatRoom.objects.filter(name=name).exists():
             raise ValidationError("このチャットルームIDは既に存在します。")
         return name
+

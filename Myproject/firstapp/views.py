@@ -19,7 +19,6 @@ def register(request):
         form = UserCreationForm(request.POST)
         if form.is_valid():
             user = form.save()
-            # login(request, user)# この行を削除
             return redirect('firstapp:home')  # ホーム画面へリダイレクトするためのURL名
         else:
             # フォームが無効な場合、エラーメッセージと共に同じページを表示

@@ -3,6 +3,63 @@
 {% block content %}
 <form method="post" class="needs-validation register-info" novalidate>
     {% csrf_token %}
+    <!-- メールアドレスフィールド -->
+    <div class="form-group">
+        <label for="email">メールアドレス</label>
+        <input type="email" name="email" class="form-control" id="email" required placeholder="メールアドレス">
+        <!-- エラーメッセージを for ループで回す -->
+        {% for error in form.email.errors %}
+            <div class="error-register">{{ error }}</div>
+        {% endfor %}
+    </div>
+
+    <!-- ユーザーネームフィールド -->
+    <div class="form-group">
+        <label for="username">ユーザーネーム</label>
+        <input type="text" name="username" class="form-control" id="username" required placeholder="ユーザーネーム">
+        {% for error in form.username.errors %}
+            <div class="error-register">{{ error }}</div>
+        {% endfor %}
+    </div>
+
+    <!-- ニックネームフィールド -->
+    <div class="form-group">
+        <label for="nickname">ニックネーム</label>
+        <input type="text" name="nickname" class="form-control" id="nickname" required placeholder="ニックネーム">
+        <!-- ニックネームフィールドにエラーがないため、エラーメッセージは必要ありません -->
+    </div>
+
+    <!-- パスワードフィールド -->
+    <div class="form-group">
+        <label for="password1">パスワード</label>
+        <input type="password" name="password1" class="form-control" id="password1" required placeholder="パスワード">
+        {% for error in form.password1.errors %}
+            <div class="error-register">{{ error }}</div>
+        {% endfor %}
+    </div>
+
+    <!-- パスワード確認フィールド -->
+    <div class="form-group">
+        <label for="password2">パスワード (確認)</label>
+        <input type="password" name="password2" class="form-control" id="password2" required placeholder="パスワード（確認用）">
+        {% for error in form.password2.errors %}
+            <div class="error-register">{{ error }}</div>
+        {% endfor %}
+    </div>
+
+    <button type="submit" class="btn btn-primary">登録</button>
+</form>
+
+<!-- トップ画面への戻るボタン -->
+<div style="text-align: center;">
+    <a href="{% url 'firstapp:index' %}" class="btn btn-secondary mt-3">戻る</a>
+</div>
+{% endblock %}
+
+{% comment %} {% block content %}
+<h2>新規ユーザー登録</h2>
+<form method="post" class="needs-validation register-info" novalidate>
+    {% csrf_token %}
     <div class="form-group">
         <label for="email">メールアドレス</label>
         <input type="email" name="email" class="form-control" id="email" required placeholder="メールアドレス">
@@ -41,4 +98,4 @@
     <div style="text-align: center;">
         <a href="{% url 'firstapp:index' %}" class="btn btn-secondary mt-3">戻る</a>
     </div>
-{% endblock %}
+{% endblock %}  {% endcomment %}

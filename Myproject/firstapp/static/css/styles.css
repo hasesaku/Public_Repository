@@ -268,3 +268,9 @@ div.like-container {
 .errorlist {
     color: red;
 }
+/* ユーザー登録用エラーメッセージのスタイル */
+.error-register {
+    color: red;
+    margin-top: 5px;
+    font-size: 0.875em; /* エラーメッセージのフォントサイズを少し小さくします */
+}
