@@ -115,19 +115,30 @@ class ChatPostForm(forms.ModelForm):
         }
 
 class ChatRoomJoinForm(forms.Form):
-    chat_room = forms.CharField(max_length=255, label='チャットルーム名')
-    
+    chat_room = forms.CharField(
+        max_length=255, 
+        label='チャットルームID',
+        widget=forms.TextInput(attrs={'placeholder': 'チャットルームIDを入力', 'class': 'form-control'})
+    )   
 
 # チャットルーム作成フォームを更新
 class ChatRoomCreationForm(forms.ModelForm):
     class Meta:
         model = ChatRoom  
         fields = ['name']
+         # labels ディクショナリを追加してフィールドのラベルを指定
+        labels = {
+            'name': 'チャットルームID',
+        }
         widgets = {
-            'name': forms.TextInput(attrs={'placeholder': '番号を入力', 'class': 'form-control', 'autocomplete': 'off'}),
+            'name': forms.TextInput(attrs={'placeholder': 'お好きな数字を入力してください', 'class': 'form-control', 'autocomplete': 'off'}),
         }
     def clean_name(self):
         name = self.cleaned_data['name']
+        # チャットルーム名が数字のみで構成されているかチェック
+        if not name.isdigit():
+            raise ValidationError("チャットルームIDは数字のみ作成してください。")
+        # チャットルーム名が既に存在するかどうかをチェック
         if ChatRoom.objects.filter(name=name).exists():
-            raise ValidationError("このチャットルーム名は既に存在します。")
+            raise ValidationError("このチャットルームIDは既に存在します。")
         return name
