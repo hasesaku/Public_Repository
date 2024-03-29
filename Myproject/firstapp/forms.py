@@ -73,26 +73,48 @@ class UserEditForm(forms.ModelForm):
         self.fields['username'].widget.attrs.update({'placeholder': 'ユーザー名'})
         self.fields['nickname'].widget.attrs.update({'placeholder': 'ニックネーム'})
 
-    def clean_current_password(self):
-        current_password = self.cleaned_data.get("current_password")
-        if current_password and not self.instance.check_password(current_password):
-            # ここでのエラー追加はやめて、cleanメソッドに任せる。
-            pass  
-        return current_password
-        
     def clean(self):
         cleaned_data = super().clean()
         current_password = cleaned_data.get("current_password")
         new_password = cleaned_data.get("new_password")
         confirm_password = cleaned_data.get("confirm_password")
         
-        # 新しいパスワードとパスワード確認が両方とも空でない場合にチェックする
-        if new_password or confirm_password:
-            if new_password != confirm_password:
-                self.add_error('confirm_password', '新しいパスワードが一致しません。')
-            if not self.instance.check_password(current_password):
-                self.add_error('current_password', '現在のパスワードが正しくありません。')
+        # 現在のパスワードが空であるかをチェック
+        if not current_password:
+            raise forms.ValidationError({
+                'current_password': '現在のパスワードを入力してください。'
+            })
+        
+        # 新しいパスワードが一致するかをチェック
+        if new_password and new_password != confirm_password:
+            self.add_error('confirm_password', '新しいパスワードが一致しません。')
+        
+        # 現在のパスワードが正しいかをチェック
+        if current_password and not self.instance.check_password(current_password):
+            self.add_error('current_password', '現在のパスワードが正しくありません。')
+
         return cleaned_data
+    # def clean_current_password(self):
+    #     current_password = self.cleaned_data.get("current_password")
+    #     if not current_password:  # 現在のパスワードが空の場合のチェック
+    #         raise forms.ValidationError('現在のパスワードを入力してください。')  # エラーメッセージを追加
+    #     if current_password and not self.instance.check_password(current_password):
+    #         raise forms.ValidationError('現在のパスワードが正しくありません。')  # 既存のパスワードチェック  
+    #     return current_password
+        
+    # def clean(self):
+    #     cleaned_data = super().clean()
+    #     current_password = cleaned_data.get("current_password")
+    #     new_password = cleaned_data.get("new_password")
+    #     confirm_password = cleaned_data.get("confirm_password")
+        
+    #     # 新しいパスワードとパスワード確認が両方とも空でない場合にチェックする
+    #     if new_password or confirm_password:
+    #         if new_password != confirm_password:
+    #             self.add_error('confirm_password', '新しいパスワードが一致しません。')
+    #         if not self.instance.check_password(current_password):
+    #             self.add_error('current_password', '現在のパスワードが正しくありません。')
+    #     return cleaned_data
 
     def save(self, commit=True):
         user = super().save(commit=False)
