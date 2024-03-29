@@ -153,6 +153,24 @@ div.chat-post {
     border-radius: 10px; /* 角を丸く */
     background-color: white; /* 背景色 */
 }
+/* 編集ボタンと削除ボタンのスタイル */
+.edit-button, .chat_delete-button {
+    font-size: 14px; /* フォントサイズを調整 */
+    padding: 5px 10px; /* 内側の余白 */
+    margin: 5px 0; /* 上下の余白 */
+}
+
+/* チャット投稿画面削除ボタンに赤色を指定 */
+.chat_delete-button {
+    background-color: red; /* 背景色を赤に設定 */
+    color: white; /* テキスト色を白に設定 */
+    border: none; /* 枠線なし */
+}
+.chat_delete-button:hover {
+    background-color: #dc3545; /* 削除ボタンの背景色を赤系に設定 */
+    cursor: pointer; /* カーソルをポインターに */
+    opacity: 0.8; /* ホバー時の透明度 */
+}
 /* 投稿削除確認画面のスタイル */
 .post-info {
     text-align: center; /* 文字を中央揃えにします */

@@ -45,10 +45,10 @@
             <small class="text-muted">{{ chat.created_at|date:"Y-m-d H:i" }}</small>
         </div>
         {% if chat.user_id == request.user.id %}
-            <!-- 編集リンクを追加 -->
-            <a href="{% url 'firstapp:edit_chat_post' chat.id %}" class="edit-link">編集</a>
-             <!-- 削除リンクを追加 -->
-            <a href="{% url 'firstapp:delete_chat_post' chat.id %}" class="delete-link">削除</a>
+            <!-- 編集リンクをボタンに変更 -->
+            <button onclick="location.href='{% url 'firstapp:edit_chat_post' chat.id %}'" class="btn btn-primary edit-button">編集</button>
+            <!-- 削除リンクをボタンに変更 -->
+            <button onclick="location.href='{% url 'firstapp:delete_chat_post' chat.id %}'" class="btn btn-primary chat_delete-button">削除</button>
         {% endif %}
     </div>
 {% endfor %}
@@ -105,3 +105,8 @@ document.addEventListener('DOMContentLoaded', function() {
 </script>
 
 {% endblock %}
+
+             {% comment %} <!-- 編集リンクを追加 -->
+            <a href="{% url 'firstapp:edit_chat_post' chat.id %}" class="edit-link">編集</a>
+             <!-- 削除リンクを追加 -->
+            <a href="{% url 'firstapp:delete_chat_post' chat.id %}" class="delete-link">削除</a> {% endcomment %}
