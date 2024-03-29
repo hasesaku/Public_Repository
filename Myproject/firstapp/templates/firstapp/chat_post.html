@@ -48,7 +48,7 @@
             <!-- 編集リンクを追加 -->
             <a href="{% url 'firstapp:edit_chat_post' chat.id %}" class="edit-link">編集</a>
              <!-- 削除リンクを追加 -->
-            <a href="{% url 'firstapp:delete_chat_post' chat.id %}" class="delete-link" onclick="return confirm('本当に削除しますか？');">削除</a>
+            <a href="{% url 'firstapp:delete_chat_post' chat.id %}" class="delete-link">削除</a>
         {% endif %}
     </div>
 {% endfor %}

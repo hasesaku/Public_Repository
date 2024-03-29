@@ -94,6 +94,16 @@ class UserEditForm(forms.ModelForm):
             self.add_error('current_password', '現在のパスワードが正しくありません。')
 
         return cleaned_data
+
+    def save(self, commit=True):
+        user = super().save(commit=False)
+        new_password = self.cleaned_data.get("new_password")
+        if new_password:
+            user.set_password(new_password)
+        if commit:
+            user.save()
+        return user
+
     # def clean_current_password(self):
     #     current_password = self.cleaned_data.get("current_password")
     #     if not current_password:  # 現在のパスワードが空の場合のチェック
@@ -115,15 +125,6 @@ class UserEditForm(forms.ModelForm):
     #         if not self.instance.check_password(current_password):
     #             self.add_error('current_password', '現在のパスワードが正しくありません。')
     #     return cleaned_data
-
-    def save(self, commit=True):
-        user = super().save(commit=False)
-        new_password = self.cleaned_data.get("new_password")
-        if new_password:
-            user.set_password(new_password)
-        if commit:
-            user.save()
-        return user
 
 class ChatPostForm(forms.ModelForm):
     # フォームにchat_roomフィールドを追加するための隠しフィールドを追加
