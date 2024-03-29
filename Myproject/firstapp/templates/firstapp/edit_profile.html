@@ -26,23 +26,10 @@
 </div>
 <!-- アカウント削除機能へのリンク -->
 <div class="user-info">
-    <a href="{% url 'firstapp:delete_user' %}" onclick="return confirm('アカウントを削除してもよろしいですか？');">アカウント削除</a>
+    <a href="{% url 'firstapp:delete_user' %}" class="btn btn-danger" onclick="return confirm('アカウントを削除してもよろしいですか？');">アカウント削除</a>
 </div>
 <!-- 前に戻るボタン -->
 <div class="user-info">
-    <a href="{% url 'firstapp:profile' %}">プロフィールに戻る</a>
+    <a href="{% url 'firstapp:profile' %}" class="btn btn-secondary ">プロフィールに戻る</a>
 </div>
 {% endblock %}
-
-    {% comment %} {% for field in form %}
-        <p>
-            {{ field.label_tag }}<br>
-            {{ field }}
-            {% if field.help_text %}
-                <small style="color: grey">{{ field.help_text }}</small>
-            {% endif %}
-            {% for error in field.errors %}
-                <strong style="color: red">{{ error }}</strong>
-            {% endfor %}
-        </p>
-    {% endfor %} {% endcomment %}
