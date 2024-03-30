@@ -84,9 +84,10 @@ button, .btn-primary, .btn-secondary {
     box-sizing: border-box; /* ボックスサイズを境界ボックスに */
 }
 /* ボタンのホバースタイル */
-button:hover, .btn-primary:hover, .btn-secondary:hover .btn-danger:hover .btn-delete:hover{
+button:hover, .btn-primary:hover, .btn-secondary:hover, .btn-delete:hover {
     background-color: #0069d9; /* ホバー時の色 */
     opacity: 0.8; /* ホバー時の透明度 */
+    color: white; /* テキスト色を白に */
 }
 /* チャットルーム作成ボタンの余白調整 */
 .btn-margin {
@@ -100,6 +101,7 @@ button:hover, .btn-primary:hover, .btn-secondary:hover .btn-danger:hover .btn-de
 /*投稿削除キャンセルボタンのスタイル*/
 .btn-delete{
     background-color: #0069d9;
+    border: none; /* 枠線なし */
     color: white; /* テキスト色を白に */
 }
 .btn-danger, .btn-delete {
@@ -153,6 +155,21 @@ div.chat-post {
     border-radius: 10px; /* 角を丸く */
     background-color: white; /* 背景色 */
 }
+
+/* チャットメタデータのスタイリングを修正 */
+div.chat-meta {
+    display: flex;
+    flex-direction: column-reverse; /* アイテムを逆順に表示 */
+    align-items: flex-end; /* 右揃え */
+    justify-content: space-between; /* アイテム間の余白を最大化 */
+}
+
+/* 投稿されたチャット表示部分のスタイル調整 */
+div.chat-post {
+    position: relative; /* 相対位置 */
+    padding-right: 40px; /* 右側のパディングを追加していいねボタンのスペースを作る */
+}
+
 /* 編集ボタンと削除ボタンのスタイル */
 .edit-button, .chat_delete-button {
     font-size: 14px; /* フォントサイズを調整 */
@@ -166,7 +183,7 @@ div.chat-post {
     color: white; /* テキスト色を白に設定 */
     border: none; /* 枠線なし */
 }
-.chat_delete-button:hover {
+.chat_delete-button:hover, .btn-danger:hover {
     background-color: #dc3545; /* 削除ボタンの背景色を赤系に設定 */
     cursor: pointer; /* カーソルをポインターに */
     opacity: 0.8; /* ホバー時の透明度 */
@@ -234,20 +251,6 @@ div.like-container {
     display: flex; /* フレックスコンテナとして表示 */
     align-items: center; /* 中央揃え */
     justify-content: flex-end; /* 右寄せ */
-}
-
-/* チャットメタデータのスタイリングを修正 */
-div.chat-meta {
-    display: flex;
-    flex-direction: column-reverse; /* アイテムを逆順に表示 */
-    align-items: flex-end; /* 右揃え */
-    justify-content: space-between; /* アイテム間の余白を最大化 */
-}
-
-/* 投稿されたチャット表示部分のスタイル調整 */
-div.chat-post {
-    position: relative; /* 相対位置 */
-    padding-right: 40px; /* 右側のパディングを追加していいねボタンのスペースを作る */
 }
 
 /* Font Awesomeのハートアイコン用のスタイル調整 */
