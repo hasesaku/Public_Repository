@@ -104,28 +104,6 @@ class UserEditForm(forms.ModelForm):
             user.save()
         return user
 
-    # def clean_current_password(self):
-    #     current_password = self.cleaned_data.get("current_password")
-    #     if not current_password:  # 現在のパスワードが空の場合のチェック
-    #         raise forms.ValidationError('現在のパスワードを入力してください。')  # エラーメッセージを追加
-    #     if current_password and not self.instance.check_password(current_password):
-    #         raise forms.ValidationError('現在のパスワードが正しくありません。')  # 既存のパスワードチェック  
-    #     return current_password
-        
-    # def clean(self):
-    #     cleaned_data = super().clean()
-    #     current_password = cleaned_data.get("current_password")
-    #     new_password = cleaned_data.get("new_password")
-    #     confirm_password = cleaned_data.get("confirm_password")
-        
-    #     # 新しいパスワードとパスワード確認が両方とも空でない場合にチェックする
-    #     if new_password or confirm_password:
-    #         if new_password != confirm_password:
-    #             self.add_error('confirm_password', '新しいパスワードが一致しません。')
-    #         if not self.instance.check_password(current_password):
-    #             self.add_error('current_password', '現在のパスワードが正しくありません。')
-    #     return cleaned_data
-
 class ChatPostForm(forms.ModelForm):
     # フォームにchat_roomフィールドを追加するための隠しフィールドを追加
     chat_room = forms.CharField(widget=forms.HiddenInput())
@@ -141,8 +119,8 @@ class ChatPostForm(forms.ModelForm):
 class ChatRoomJoinForm(forms.Form):
     chat_room = forms.CharField(
         max_length=255, 
-        label='チャットルームID',
-        widget=forms.TextInput(attrs={'placeholder': 'チャットルームIDを入力', 'class': 'form-control'})
+        label='チャットルーム名',
+        widget=forms.TextInput(attrs={'placeholder': 'チャットルーム名を入力', 'class': 'form-control'})
     )   
 
 # チャットルーム作成フォームを更新
@@ -152,18 +130,15 @@ class ChatRoomCreationForm(forms.ModelForm):
         fields = ['name']
          # labels ディクショナリを追加してフィールドのラベルを指定
         labels = {
-            'name': 'チャットルームID',
+            'name': 'チャットルーム名',
         }
         widgets = {
-            'name': forms.TextInput(attrs={'placeholder': 'お好きな数字を入力してください', 'class': 'form-control', 'autocomplete': 'off'}),
+            'name': forms.TextInput(attrs={'placeholder': '新しいチャットルーム名を入力', 'class': 'form-control', 'autocomplete': 'off'}),
         }
     def clean_name(self):
         name = self.cleaned_data['name']
-        # チャットルーム名が数字のみで構成されているかチェック
-        if not name.isdigit():
-            raise ValidationError("チャットルームIDは数字のみ作成してください。")
-        # チャットルーム名が既に存在するかどうかをチェック
+
         if ChatRoom.objects.filter(name=name).exists():
-            raise ValidationError("このチャットルームIDは既に存在します。")
+            raise ValidationError("このチャットルーム名は既に存在します。")
         return name
 

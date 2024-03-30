@@ -124,7 +124,7 @@ button:hover, .btn-primary:hover, .btn-secondary:hover, .btn-delete:hover {
 .register-info {
     text-align: center; /* テキストを中央揃えに */
     margin: 0 auto; /* 上下の余白を0にし、左右の余白を自動調整で中央揃えに */
-    width: fit-content; /* コンテンツの幅に合わせて幅を自動調整 */
+    width: 500px; /* コンテンツの幅に合わせて幅を自動調整 */
 }
 /* プロフィールコンテナのスタイル */
 .profile-container {

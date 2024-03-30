@@ -137,20 +137,25 @@ def create_chat_room(request):
             return redirect('firstapp:chatrooms')
     return render(request, 'firstapp/new_chatroom.html', {'form': form})
 
+#チャット投稿をするビュー
 @login_required
-def chat_post(request, chat_room):
+def chat_post(request, chat_room_id):
+    # チャットルームの名前を取得してテンプレートに渡す
+    chat_room = get_object_or_404(ChatRoom, pk=chat_room_id)  # 修正: chat_room_idを使ってChatRoomオブジェクトを取得します。
+    room_name = chat_room.name  # 修正: ChatRoomオブジェクトから名前を取得します。
+    
     if request.method == 'POST':
         form = ChatPostForm(request.POST)
         if form.is_valid():
             chat_post = form.save(commit=False)
             chat_post.user_id = request.user.id  # ユーザーIDをChatインスタンスのuser_idフィールドに設定
-            chat_post.chat_room_id = chat_room  # チャットルームIDも適切に設定
+            chat_post.chat_room_id = chat_room_id  # チャットルームIDも適切に設定
             chat_post.save()
-            return redirect(reverse('firstapp:chat_post', kwargs={'chat_room': chat_room}))
+            return redirect('firstapp:chat_post', chat_room_id:=chat_room_id)
     else:
-        form = ChatPostForm(initial={'chat_room': chat_room})
+        form = ChatPostForm(initial={'chat_room_id': chat_room_id})
     # チャットを作成日時順に取得してテンプレートに渡す
-    chats = Chat.objects.filter(chat_room_id=chat_room).order_by('created_at')
+    chats = Chat.objects.filter(chat_room_id=chat_room_id).order_by('created_at')
     # チャットごとにユーザー情報を取得
     chats_with_user_info = []
     for chat in chats:
@@ -160,6 +165,7 @@ def chat_post(request, chat_room):
         likes_count = Like.objects.filter(chat_id=chat.id).count()
         # このユーザーがいいねしているかどうか
         user_liked = Like.objects.filter(chat_id=chat.id, user_id=request.user.id).exists()
+        
         # チャット情報とユーザー情報を組み合わせた辞書を作成
         chat_info = {
             'id': chat.id,
@@ -171,11 +177,12 @@ def chat_post(request, chat_room):
             'user_liked': user_liked,  # いいねしている状態を辞書に追加
         }
         chats_with_user_info.append(chat_info)
-
+        
+    # render関数でテンプレートに変数を渡す
     return render(request, 'firstapp/chat_post.html', {
         'form': form,
         'chats': chats_with_user_info,  # 変更: chats_with_user_infoをテンプレートに渡す
-        'room_name': chat_room  # チャットルーム名をテンプレートに渡す
+        'room_name': room_name  # チャットルーム名をテンプレートに渡す
     })
 
 @login_required

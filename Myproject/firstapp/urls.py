@@ -23,7 +23,7 @@ urlpatterns = [
     # ログアウト画面へのURLを追加
     path('logout/', views.user_logout, name='logout'),
     #チャット投稿画面へのURLを追加
-    path('chat_post/<str:chat_room>/', views.chat_post, name='chat_post'),
+    path('chat_post/<int:chat_room_id>/', views.chat_post, name='chat_post'),
     #チャット投稿を編集するためのURLを追加
     path('edit_chat_post/<int:chat_id>/', views.edit_chat_post, name='edit_chat_post'),
     # チャット投稿を削除するためのURLを追加

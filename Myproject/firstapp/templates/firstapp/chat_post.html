@@ -3,7 +3,7 @@
 {% extends 'firstapp/base.html' %}
 
 {% block content %}
-<h2>ルーム{{ room_name }}</h2>
+<h2>Room-{{ room_name }}</h2>
 
 <!-- チャット投稿フォーム -->
 <form method="post" style="display: flex; justify-content: space-between; align-items: flex-end;">
@@ -11,11 +11,6 @@
     <div style="flex-grow: 1; margin-right: 10px;">{{ form.as_p }}</div>
     <button type="submit" class="btn btn-primary">送信</button>
 </form>
-{% comment %} <form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">送信</button>
-</form> {% endcomment %}
 
 <!-- チャットルーム参加画面への戻るボタンを追加 -->
 <div style="text-align: center;">
@@ -105,8 +100,3 @@ document.addEventListener('DOMContentLoaded', function() {
 </script>
 
 {% endblock %}
-
-             {% comment %} <!-- 編集リンクを追加 -->
-            <a href="{% url 'firstapp:edit_chat_post' chat.id %}" class="edit-link">編集</a>
-             <!-- 削除リンクを追加 -->
-            <a href="{% url 'firstapp:delete_chat_post' chat.id %}" class="delete-link">削除</a> {% endcomment %}

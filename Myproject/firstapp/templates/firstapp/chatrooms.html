@@ -21,8 +21,8 @@
     <li class="list-group-item">
         {{ chat_room.name }}
         <!-- 参加ボタンを追加 -->
-        <!-- 'chat_post' ビューのURLに chat_room.name を正しく渡す -->
-        <a href="{% url 'firstapp:chat_post' chat_room.name %}" class="btn btn-primary btn-sm float-right">参加</a>
+        <!-- 'chat_post' ビューのURLに chat_room.id を正しく渡す -->
+        <a href="{% url 'firstapp:chat_post' chat_room.id %}" class="btn btn-primary btn-sm float-right">参加</a>
     </li>
     {% endfor %}
     <div style="text-align: center;">
