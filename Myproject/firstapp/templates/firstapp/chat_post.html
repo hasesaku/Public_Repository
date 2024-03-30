@@ -8,7 +8,11 @@
 <!-- チャット投稿フォーム -->
 <form method="post" style="display: flex; justify-content: space-between; align-items: flex-end;">
     {% csrf_token %}
-    <div style="flex-grow: 1; margin-right: 10px;">{{ form.as_p }}</div>
+    <div style="flex-grow: 1; margin-right: 10px;">
+        {{ form.as_p }}
+        <!-- 以下の行を追加して隠しフィールドの値を設定する -->
+        <input type="hidden" name="chat_room" value="{{ chat_room_id }}">
+    </div>
     <button type="submit" class="btn btn-primary">送信</button>
 </form>
 

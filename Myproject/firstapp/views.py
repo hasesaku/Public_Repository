@@ -153,7 +153,7 @@ def chat_post(request, chat_room_id):
             chat_post.save()
             return redirect('firstapp:chat_post', chat_room_id:=chat_room_id)
     else:
-        form = ChatPostForm(initial={'chat_room_id': chat_room_id})
+        form = ChatPostForm(initial={chat_room_id: chat_room_id})
     # チャットを作成日時順に取得してテンプレートに渡す
     chats = Chat.objects.filter(chat_room_id=chat_room_id).order_by('created_at')
     # チャットごとにユーザー情報を取得
@@ -182,7 +182,8 @@ def chat_post(request, chat_room_id):
     return render(request, 'firstapp/chat_post.html', {
         'form': form,
         'chats': chats_with_user_info,  # 変更: chats_with_user_infoをテンプレートに渡す
-        'room_name': room_name  # チャットルーム名をテンプレートに渡す
+        'room_name': room_name,  # チャットルーム名をテンプレートに渡す
+        'chat_room_id': chat_room_id,  # 修正: chat_room_id をテンプレートに渡す
     })
 
 @login_required
