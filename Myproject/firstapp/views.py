@@ -193,7 +193,7 @@ def edit_chat_post(request, chat_id):
         form = ChatPostForm(request.POST, instance=chat)
         if form.is_valid():
             form.save()
-            return redirect(reverse('firstapp:chat_post', kwargs={'chat_room': chat.chat_room_id}))
+            return redirect(reverse('firstapp:chat_post', kwargs={'chat_room_id': chat.chat_room_id}))
     else:
         form = ChatPostForm(instance=chat, initial={'chat_room': chat.chat_room_id})
     return render(request, 'firstapp/edit_chat_post.html', {'form': form, 'chat': chat})
@@ -207,7 +207,7 @@ def delete_chat_post(request, chat_id):
 
     if request.method == 'POST':
         chat_post.delete()
-        return redirect('firstapp:chat_post', chat_room=chat_room_id)  # 削除後はチャット投稿画面にリダイレクト
+        return redirect('firstapp:chat_post', chat_room_id=chat_room_id)  # 削除後はチャット投稿画面にリダイレクト
     else:
         # GETリクエスト時は確認画面を表示
         return render(request, 'firstapp/delete_post.html', {
